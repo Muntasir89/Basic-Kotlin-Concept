@@ -32,7 +32,8 @@ fun task1(){
 fun task2(){
     print("World")
 }
-```</br></br>
+```
+</br></br>
 In the above code the output will be ***Hello World***. If we modify the code as-</br>
 ```
   import kotlinx.coroutines.*
@@ -50,5 +51,6 @@ suspend fun task2(){
     delay(1000L)
     print("World")
 }
-``` </br> 
-Then output will be **Hello World!**. Every suspend function needs to run inside a coroutine.Then output will be **World.** Every suspend function needs to run inside a coroutine.
+``` 
+</br> 
+Then output will also be ***Hello World*** Every suspend function needs to run inside a coroutine.
