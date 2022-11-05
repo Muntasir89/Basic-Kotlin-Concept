@@ -21,3 +21,34 @@ A Thread describes in which context this sequence of instructions should execute
   - It is a light-weight threads
   - Like threads, coroutines can run in parallel, wait for each other, and communicate with each other.
   - But Coroutine != Thread
+```
+  fun main() {
+    task1()
+    task2()
+}
+fun task1(){
+    print("Hello")
+}
+fun task2(){
+    print("World")
+}
+```</br></br>
+In the above code the output will be ***Hello World***. If we modify the code as-</br>
+```
+  import kotlinx.coroutines.*
+  fun main() {
+    GlobalScope.launch{
+        task2()
+    }
+    task1()
+    Thread.sleep(2000L)
+}
+fun task1(){
+    print("Hello")
+}
+suspend fun task2(){
+    delay(1000L)
+    print("World")
+}
+``` </br> 
+Then output will be **Hello World!**. Every suspend function needs to run inside a coroutine.Then output will be **World.** Every suspend function needs to run inside a coroutine.
