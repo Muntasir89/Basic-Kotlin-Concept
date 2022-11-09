@@ -112,3 +112,6 @@ output:
 Name is Muntasir and Age is 24
 ```
 The most common usage of secondary constructors comes in subclasses when you need to initialize the class in different ways. If the class contains a primary constructor, the secondary constructor must refer to it in its declaration.
+## @Volatile
+In kotlin in order to force changes in a variable to be immediately visible to other threads, we can use the annotation @Volatile. If a variable is not shared between multiple threads, you don't need to use keyword with that variable.</br>
+When you apply volatile to a field of a class, it instructs the CPU to always read it from RAM and not from the CPU cache. It also prevents instructions reordering, it acts as memory barrier.
