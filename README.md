@@ -115,3 +115,130 @@ The most common usage of secondary constructors comes in subclasses when you nee
 ## @Volatile
 In kotlin in order to force changes in a variable to be immediately visible to other threads, we can use the annotation @Volatile. If a variable is not shared between multiple threads, you don't need to use keyword with that variable.</br>
 When you apply volatile to a field of a class, it instructs the CPU to always read it from RAM and not from the CPU cache. It also prevents instructions reordering, it acts as memory barrier.
+## Scope Function
+### apply
+```kotlin
+data class Employee(var firstName:String="John",var lastName:String = "Doe", var age:Int  = 28, var height:Double = 5.4)
+fun main() {
+    val emp = Employee()
+    emp.firstName = "Alice"
+    emp.lastName = "Smith"
+    emp.age = 20
+    emp.height = 5.8
+    
+    println(emp)
+}
+```
+Consider, the above example. Here the output is
+```
+Employee(firstName=Alice, lastName=Smith, age=20, height=5.8)
+```
+But **apply** keyword works here like below which will give us same output.
+```kotlin
+data class Employee(var firstName:String="John",var lastName:String = "Doe", var age:Int  = 28, var height:Double = 5.4)
+fun main() {
+    val emp = Employee()
+    var x = emp.apply{
+        firstName = "Alice"
+        lastName = "Smith"
+        age = 20
+        height = 5.8
+    }
+    
+    println(x)
+}
+```
+### also
+***also*** function is generally used where we want to perform some additional operation on a particular object after we have initialized it. It works like ***apply***. It executess a given block and returns the objcet called. Inside the block, the object is referenced by ***it***, so it's easier to pass it as an argument. This function is handy for embedding additional actions, such as logging in call chains.
+```kotlin
+data class Person(var name: String, var age:Int, var about:String){
+    constructor(): this("", 0, "")
+}
+fun writeCreationLog(p:Person){
+    println("A new person ${p.name} was created")
+}
+fun main(){
+    val jake = Person("Jake", 30, "android developer").also{writeCreationLog(it)}
+    println(jake)
+}
+```
+The above code does three task:
+1. Creates a ```Person``` object with the given property values
+2. Applies the given code block to the object. The return value is the object itself.
+3. Calls the logging function passing the object as an argument.</br>
+Output:
+```
+A new person Jake was created
+Person(name=Jake, age=30, about=android developer)
+```
+### let
+***let*** function returns the lamda result and we can refer to its objects by using **_it_** identifier. Let's see an example...
+```kotlin
+fun main() {
+    val noun:String? = null
+    println(noun!!.reversed())
+    println(noun.capitalize())
+    println(noun.length)
+}
+```
+Above code will result ```NullPointerException``` To avoid NULLPointerException ***let*** function is used.
+```kotlin
+fun main(){
+  val noun:String? = null
+  noun.let{
+    println(it.reversed())
+  	println(it.capitalize())
+  	println(it.length)
+  }
+}
+```
+***let*** function is used like this. Wait..wait... don't think it will run :stuck_out_tongue_winking_eye::stuck_out_tongue_winking_eye::stuck_out_tongue_winking_eye: It will also show ```NullPointerException``` To remove this we have to use ***Safe Call [?.]***. By using it after our ***noun*** string code will like this
+```kotlin
+fun main() {
+    val noun:String? = null
+    noun?.let{
+        println(it.reversed())
+    	println(it.capitalize())
+    	println(it.length)
+    }
+}
+```
+If ***noun*** is null then let block won't be executed. Again...
+```kotlin
+fun main() {
+    val noun:String? = "Kotlin"
+    val nounlength = noun?.let{
+        println(it.reversed())
+    	println(it.capitalize())
+    	it.length   //<---------------- It is the return value
+    }
+    println("nounlength: "+nounlength)
+}
+```
+output:
+```
+niltoK
+Kotlin
+nounlength: 6
+```
+### run
+***run*** is a combination of ***with*** and ***let***. If you want to operate on a Nullable object and avoid NullPointerException then use ***run***.
+```kotlin
+data class Employee(var firstName:String="John",var lastName:String = "Doe", var age:Int  = 28, var height:Double = 5.4)
+fun main(){
+    val emp:Employee = Employee()
+    val quote = emp?.run{
+        println(firstName)
+    	println(lastName)
+    	age+5
+        "The night is as darkest as before the dawn."
+    }
+    println(quote)
+}
+```
+Output:
+```
+John
+Doe
+The night is as darkest as before the dawn.
+```
