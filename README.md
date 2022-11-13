@@ -242,3 +242,71 @@ John
 Doe
 The night is as darkest as before the dawn.
 ```
+## Enum Class
+```kotlin
+enum class Color(val colorShade:String){
+    RED("red"),
+    GREEN("green"),
+    BLUE("blue")
+}
+```
+The hardcodded strings cannot be changed later because this are now constant values. So, enum class cannot hold any kind of dynamic values that can be changed later. </br>
+To overcome this kind of restrictions we have something called **_sealed classs_**.
+## Sealed Class
+**sealed** means **restriction**. But it is more flexible than the enum class. So we can say, **_class > sealed class > enum class_**.
+```kotlin
+sealed class Shape{
+    class Circle(var Float): Shape()
+    class Square(var side: Int): Shape()
+    class Rectangle(var length: Int, var breadth: Int): Shape()
+}
+```
+Within the sealed class the subclasses are created. We can also add property to these classes.
+```kotlin
+sealed class Shape{
+    
+}
+class Circle: Shape()
+class Square: Shape()
+class Rectangle: Shape()
+```
+Sub classes can be put outside of sealed class. But the subclasses can not be put outside of sealed class file. It is not allowed. Sealed class can have data class also. 
+- A sealed class is implicitly an abstract class which cannot be instantiated. 
+- By default, the constructor of a sealed class is private and we cannot make it as non-private.
+```kotlin
+sealed class Shape{
+    class Circle(var radius: Float): Shape()
+	class Square(var side: Int): Shape()
+    
+    object NotAShape: Shape()
+    //sealed class Line: Shape()
+    //sealed interface Draw
+}
+class Rectangle(var length: Int, var breadth: Int): Shape()
+
+fun main(){
+    var circle = Shape.Circle(3.0f)
+    var square = Shape.Square(8)
+    var rectangle = Rectangle(20, 10)
+    
+    val noShape = Shape.NotAShape
+    
+    checkShape(circle)
+    checkShape(rectangle)
+    checkShape(noShape)
+}
+fun checkShape(shape: Shape){
+    when(shape){
+        is Shape.Circle -> println("Circle area is ${3.14 * shape.radius * shape.radius}")
+        is Shape.Square -> println("Square area is ${shape.side * shape.side}")
+        is Rectangle -> println("Rectangle area is ${shape.length * shape.breadth}")
+        Shape.NotAShape -> println("No Shape Found")
+    }
+}
+```
+Output:
+```
+Circle area is 28.259999999999998
+Rectangle area is 200
+No Shape Found
+```
