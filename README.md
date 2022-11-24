@@ -192,7 +192,7 @@ fun main(){
   }
 }
 ```
-***let*** function is used like this. Wait..wait... don't think it will run :stuck_out_tongue_winking_eye::stuck_out_tongue_winking_eye::stuck_out_tongue_winking_eye: It will also show ```NullPointerException``` To remove this we have to use ***Safe Call [?.]***. By using it after our ***noun*** string code will like this
+***let*** function is used like this. Wait..wait... don't think it will run :stuck_out_tongue_winking_eye::stuck_out_tongue_winking_eye::stuck_out_tongue_winking_eye: It will also show ```NullPointerException``` To remove this we have to use ***Safe Call [?.]***. This calls a method if the property is not null or returns null if that property is null without throwing an NPE (null pointer exception). By using it after our ***noun*** string code will like this
 ```kotlin
 fun main() {
     val noun:String? = null
