@@ -364,3 +364,70 @@ Mobile(name=Pixel, price=1000)
 Mobile(name=Iphone, price=1000)
 Mobile(name=Iphone, price=2000)
 ```
+## **_By_** Keyword
+In kotlin every variable has an implicit getter and setter. For example,
+```kotlin
+var hello = "hello"
+```
+When later we have access to ```hello``` variable. We actually invoke the getter that gives the original value. When changing variable the default property (var only). </br>
+In kotlin, we use **_by_** keyword delegates the getter and setter of a variable to another object, called *the delegate*.</br>
+So when write 
+```kotlin
+var myString: String by Delegate()
+```
+we basicly override the getter and setter method with the **Delegate()** method. 
+</br></br>
+In Kotlin, the by keyword is used in several contexts, each with a different purpose. Here are some common use cases for the by keyword:
+
+Delegation: The by keyword is frequently used for delegation, where one class delegates some of its functionality to another class. This is known as the delegation pattern. By using the by keyword, you can delegate method calls and property access to another object, which is known as the delegate. The delegate must implement a specific interface or provide specific methods.
+Example:
+```kotlin
+interface Printer {
+    fun print(message: String)
+}
+class ConsolePrinter : Printer {
+    override fun print(message: String) {
+        println(message)
+    }
+}
+class PrinterController(printer: Printer) : Printer by printer
+
+fun main() {
+    val consolePrinter = ConsolePrinter()
+    val controller = PrinterController(consolePrinter)
+    controller.print("Hello, World!")
+}
+```
+In this example, the PrinterController class delegates the print method to the ConsolePrinter class using the by keyword. When the print method is called on the PrinterController object, it invokes the print method of the ConsolePrinter object.
+
+Property Delegation: The by keyword is also used for property delegation. It allows you to delegate the implementation of property access and modification to a separate object, known as the delegate. The delegate must provide getValue and setValue methods for the delegated property.
+
+Example:
+```kotlin
+class Example {
+    var value: String by Delegate()
+}
+class Delegate {
+    private var backingField = ""
+
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): String {
+        println("Getting value: $backingField")
+        return backingField
+    }
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: String) {
+        println("Setting value: $value")
+        backingField = value
+    }
+}
+
+fun main() {
+    val example = Example()
+    example.value = "Hello, World!"
+    println(example.value)
+}
+```
+In this example, the value property of the Example class is delegated to the Delegate class using the by keyword. The Delegate class provides the getValue and setValue methods, which are invoked when the property is accessed or modified.
+
+When the value property is assigned a new value, the setValue method is called. When the value property is accessed, the getValue method is called. In this case, the Delegate class simply stores the value in its backing field and logs the operations.
+
+These are two common use cases of the by keyword in Kotlin. It enables delegation of functionality and property access/modification to other classes, allowing for code reuse and separation of concerns.
