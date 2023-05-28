@@ -431,3 +431,28 @@ In this example, the value property of the Example class is delegated to the Del
 When the value property is assigned a new value, the setValue method is called. When the value property is accessed, the getValue method is called. In this case, the Delegate class simply stores the value in its backing field and logs the operations.
 
 These are two common use cases of the by keyword in Kotlin. It enables delegation of functionality and property access/modification to other classes, allowing for code reuse and separation of concerns.
+
+## in vs as
+**is X** is the equivalent of **instanceof X**
+```kotlin
+if(a is Person) {    
+    // a is now treated as Person
+}
+```
+**foo as X** is the equivalent of **((X) foo)**
+```kotlin
+val p = a as? Person
+p?.foo()
+```
+Basically, **is**-To check if an object is of a certain type
+```kotlin
+if (obj is String) {
+    print(obj.length)
+}
+```
+And **as**-To cast an object to a potential parent type
+```kotlin
+val x: String = y as String
+val x: String? = y as String?
+val x: String? = y as? String
+```
