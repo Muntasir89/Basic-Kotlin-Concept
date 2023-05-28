@@ -310,3 +310,57 @@ Circle area is 28.259999999999998
 Rectangle area is 200
 No Shape Found
 ```
+## Val vs Var
+### Val
+- ***val*** is a general variable
+- can be reassigned multiple times
+- var is mutable
+```kotlin
+fun main(){
+    val amount = 100
+    println("Previous amount is $amount")
+    //val amount = 200 //<--------This will show error
+}
+```
+Output:
+```
+Previous amount is 100
+```
+### Var
+- constant
+- only one time initialization
+- immutable
+```kotlin
+fun main(){
+    var amount = 100;
+    println("Previous amount is $amount")
+    amount = 200
+    println("new amount $amount")
+    amount = 400
+    println("new amount $amount")
+}
+```
+Output:
+```
+Previous amount is 100
+new amount 200
+new amount 400
+```
+But if we create val object variable can be reassigned
+```kotlin
+data class Mobile(var name: String = "", var price: Int = 0){}
+fun main(){
+    val mobile = Mobile("Pixel", 1000)
+    println(mobile)
+    mobile.name = "Iphone"
+    println(mobile)
+    mobile.price = 2000
+    println(mobile)
+}
+```
+Output:
+```
+Mobile(name=Pixel, price=1000)
+Mobile(name=Iphone, price=1000)
+Mobile(name=Iphone, price=2000)
+```
